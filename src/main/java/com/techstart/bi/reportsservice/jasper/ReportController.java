@@ -1,25 +1,20 @@
 package com.techstart.bi.reportsservice.jasper;
 
-import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JsonDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
-import net.sf.jasperreports.engine.util.JRSaver;
-import org.apache.commons.lang.StringUtils;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
-import java.sql.SQLException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
 
-@Controller
+@RestController
 @CrossOrigin
 public class ReportController {
 
