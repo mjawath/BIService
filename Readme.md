@@ -1,9 +1,19 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.techstart.bi.reports-service' is invalid and this project uses 'com.techstart.bi.reportsservice' instead.
 
 # Getting Started
+run the server 
+freemarker can be accessed
+localhost:8080/fm/export?template=Hello
+for the the hello ftl template you should pass
+    { 
+        "user":"jawath",
+        "greeting":"hello  Good afternoon "
+        "nested": { "xyz":"this is nested property"} 
+    }
+interesting article
+https://labs.consol.de/development/2018/03/26/dynamic-and-complex-configurations-with-freemarker.html
 
 ### Reference Documentation
 For further reference, please consider the following sections:
