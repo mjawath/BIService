@@ -1,5 +1,6 @@
 package com.techstart.bi.reportsservice.jasper;
 
+import com.techstart.common.utils.date.DateFormat;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JsonDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -10,13 +11,16 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.*;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Map;
+
+import static com.techstart.common.utils.file.WriteToFile.writeToFile;
 
 
 public class JasperUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JasperUtils.class);
-
+    private static final String OUTPUT_DIRECTORY = System.getProperty("user.dir")+ File.separator +"OUTPUT"+ File.separator+"jasper"+ File.separator;
 
     public static void exportAndWriteToOutPutStream(String report, Map<String, Object> parameters,
                                                     String payload,OutputStream out){
@@ -29,7 +33,7 @@ public class JasperUtils {
             }
             JasperPrint jasperPrint = exportToPdf(report,parameters,payload);//userService.exportPdfFile();
             JasperExportManager.exportReportToPdfStream(jasperPrint, out);
-
+            write(report,jasperPrint);
         }catch (Exception e){
             logger.error(report+ " failed to compile ",e);
             throw  new RuntimeException(e);
@@ -107,6 +111,16 @@ public class JasperUtils {
     private static String getFileName(String report,String ext) {
         String filesep = "reports" + File.separator;
         return  report.contains("."+ext)?filesep + report: filesep+report+"."+ext;
+    }
+
+    public static void write(String template,JasperPrint jasper){
+        final String fileName = OUTPUT_DIRECTORY + template + DateFormat.get_yyyyMMddHHmmss(new Date()) + ".pdf";
+        try {
+            JasperExportManager.exportReportToPdfFile(jasper,fileName);
+        } catch (JRException e) {
+            logger.error("error occurred while exporting jasper report "+fileName,e);
+            e.printStackTrace();
+        }
     }
 
 }

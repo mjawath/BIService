@@ -16,7 +16,8 @@ public class FreeMarkerHtmlGenerator{
     public String generateFreemarkerTemplate(@RequestParam String template,@RequestBody String data){
         try {
             String html = tplManager.processTemplate(template,data);
-            System.out.println(html);
+
+
             return html;
         }catch (Exception e){
          e.printStackTrace();
