@@ -1,6 +1,10 @@
 package com.techstart.bi.reportsservice.poi;
 
+import com.techstart.bi.reportsservice.freemarker.TemplateManager;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFFormulaEvaluator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -20,11 +24,7 @@ public class ExcelManager {
 
     private static final String DIR_NAME = System.getProperty("user.dir")+ File.separator +"OUTPUT"+ File.separator+"excel"+ File.separator;
 
-    public static void main(String[] args) throws IOException {
-
-//        processTemplate("exel.xlsx",data,null);
-        System.out.println("Done");
-    }
+    private static final Logger LOG= LoggerFactory.getLogger(ExcelManager.class);
 
     public static void processTemplate(String exelTemplate, List<List> data, HttpServletResponse response) throws IOException {
         //copy the file
@@ -52,6 +52,7 @@ public class ExcelManager {
                 }
             }
         }
+        XSSFFormulaEvaluator.evaluateAllFormulaCells(workbook);
 
         try {
             FileOutputStream outputStream = new FileOutputStream(copied.toFile());
@@ -67,7 +68,7 @@ public class ExcelManager {
                 OutputStream out = response.getOutputStream();
                 FileInputStream newInputStream = new FileInputStream(copied.toFile());
                 out.write(newInputStream.readAllBytes());
-                System.out.println("done boss");
+                LOG.info("Excel file is successfuly generated {}",copied.toUri().toString());
             }
             } catch (Exception e) {
             e.printStackTrace();
