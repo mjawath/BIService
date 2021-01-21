@@ -5,7 +5,9 @@ import org.apache.poi.ss.usermodel.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static java.nio.file.Files.copy;
 
@@ -20,19 +22,11 @@ public class ExcelManager {
 
     public static void main(String[] args) throws IOException {
 
-        Object[][] data = {
-                {"Datatype", "Type", "Size(in bytes)"},
-                {"int", "Primitive", 2},
-                {"float", "Primitive", 4},
-                {"double", "Primitive", 8},
-                {"char", "Primitive", 1},
-                {"String", "Non-Primitive", "No fixed size"}
-        };
-        processTemplate("exel.xlsx",data,null);
+//        processTemplate("exel.xlsx",data,null);
         System.out.println("Done");
     }
 
-    public static void processTemplate(String exelTemplate, Object[][] data, HttpServletResponse response) throws IOException {
+    public static void processTemplate(String exelTemplate, List<List> data, HttpServletResponse response) throws IOException {
         //copy the file
         Path originalPath = Paths.get(DIR_NAME +exelTemplate);
         Path copied = Paths.get(DIR_NAME +exelTemplate.substring(0,exelTemplate.indexOf("."))+
@@ -46,7 +40,7 @@ public class ExcelManager {
 
         int rowNum = 0;// this can be set to start from 1 considering header !!
 
-        for (Object[] datatype : data) {
+        for (List datatype : data) {
             Row row = sheet.createRow(rowNum++);
             int colNum = 0;
             for (Object field : datatype) {

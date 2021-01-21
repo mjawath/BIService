@@ -27,8 +27,6 @@ public class ExcelGeneratorController {
             CSVParser parser = CSVParser.parse(dataStr, CSVFormat.DEFAULT);
             Iterable<CSVRecord> records =  parser.parse(dataStr, CSVFormat.DEFAULT);
 
-            long rn = parser.getRecordNumber();
-//            Object[][] data = new Object[(int) rn][];
             List<List> lists = new ArrayList<>();
             for (CSVRecord record : records) {
                 int cur=0;
@@ -38,18 +36,8 @@ public class ExcelGeneratorController {
                 }
                 lists.add(l);
             }
-            records.
 
-            Object[][] data = {
-                    {"Datatype", "Type", "Size(in bytes)"},
-                    {"int", "Primitive", 2},
-                    {"float", "Primitive", 4},
-                    {"double", "Primitive", 8},
-                    {"char", "Primitive", 1},
-                    {"String", "Non-Primitive", "No fixed size"}
-            };
-            Object[][] data = lists.
-            ExcelManager.processTemplate(template,data,response);
+            ExcelManager.processTemplate(template,lists,response);
         }catch (Exception e){
             e.printStackTrace();
             throw new RuntimeException(e);
